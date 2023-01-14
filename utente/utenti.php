@@ -16,12 +16,10 @@
 
   <body class="bg-light">
 
-
-    <script id="replace_with_navbar" src="nav.js"></script>
-
-
-
-
+  <?php
+      $path = $_SERVER["DOCUMENT_ROOT"]."/biblioteca/Biblioteca/";
+      include($path."nav.html");
+?>
 
     <div class="card-group p-3">
 

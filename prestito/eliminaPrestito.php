@@ -27,7 +27,7 @@
   </head>
 
   <body class="bg-light">
-  <script id="replace_with_navbar" src="nav.js"></script>
+  <script id="replace_with_navbar" src="../nav.js"></script>
 
   <?php
 
@@ -39,17 +39,17 @@ $isbn = $_REQUEST["isbn"];
 
 $conn = connect();
 
-$query = "DELETE FROM libro WHERE isbn='$isbn'";
+$query = "DELETE FROM prestito WHERE isbn='$isbn'";
 
 if($conn->query($query) === TRUE) {
 
-    echo "Codice $isbn eliminato con successo!";
+    echo "Prestito con codice $isbn eliminato con successo!";
 
     echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
 
 } else {
 
-    echo "Codice $isbn non trovato.";
+    echo "Prestito con codice $isbn non trovato.";
 
     echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
 

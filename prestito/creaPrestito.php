@@ -23,7 +23,7 @@
   </head>
 
   <body class="bg-light">
-  <script id="replace_with_navbar" src="nav.js"></script>
+  <script id="replace_with_navbar" src="../nav.js"></script>
 
     
 

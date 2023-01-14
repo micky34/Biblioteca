@@ -1,3 +1,7 @@
+
+
+
+
 <!doctype html>
 
 <html lang="en">
@@ -23,62 +27,39 @@
   </head>
 
   <body class="bg-light">
+  <script id="replace_with_navbar" src="../nav.js"></script>
 
-    <script id="replace_with_navbar" src="nav.js"></script>
+  <?php
 
-    <h3 class="p-2">Inserisci un libro</h3>
-
-
-
-    <form action="inserisciUtente.php" method="post" class="p-2">
-
-        <div class="row mb-3">
-
-            <label class="col-sm-1 col-form-label">Nome</label>
-
-            <div class="col-sm-2">
-
-              <input type="text" class="form-control" name="nome" placeholder="Nome utente">
-
-            </div>
-
-        </div>
+include 'connect.php';
 
 
 
-          <div class="row mb-3">
+$id = $_REQUEST["id"];
 
-            <label class="col-sm-1 col-form-label">Email</label>
+$conn = connect();
 
-            <div class="col-sm-2">
+$query = "DELETE FROM utente WHERE id='$id'";
 
-              <input type="email" class="form-control" name="email" placeholder="Email">
+if($conn->query($query) === TRUE) {
 
-            </div>
+    echo "Utente $id eliminato con successo!";
 
-          </div>
+    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='cercaUtente.php?id=&nome=&email='\"/>";
 
+} else {
 
+    echo "Utente $id non trovato.";
 
-          <div class="row mb-3">
+    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='cercaUtente.php?id=&nome=&email='\"/>";
 
-            <label class="col-sm-1 col-form-label">Password</label>
-
-            <div class="col-sm-2">
-
-              <input type="password" class="form-control" name="password" placeholder="Password">
-
-            </div>
-
-          </div>
+}
 
 
 
-          <input class="btn btn-primary" type="submit" value="Invio">
+?>
 
-      </form>
 
-      <input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
 
 
 

@@ -18,12 +18,12 @@
 
 
 
-    <title>Ricerca libro</title>
+    <title>Lista prestiti</title>
 
   </head>
 
   <body class="bg-light">
-  <script id="replace_with_navbar" src="nav.js"></script>
+  <script id="replace_with_navbar" src="../nav.js"></script>
 
 <?php
 
@@ -33,37 +33,13 @@ include 'connect.php';
 
 
 
-  if(isset($_REQUEST["id"], $_REQUEST["nome"], $_REQUEST["email"])){
-
-       $id = $_REQUEST["id"];
-
-    $nome = $_REQUEST["nome"];
-
-    $email = $_REQUEST["email"];
-
-  } else {
-
-    $id  = "";
-
-    $nome = "";
-
-    $email = "";
-
-  }
-
- 
-
-
-
     $check = false;
 
 
 
-    $query = "SELECT * FROM utente WHERE id LIKE '$id%' AND nome LIKE '$nome%' AND email LIKE '$email%'";
+    $query = "SELECT * FROM prestito";
 
     $result = $conn->query($query);
-
-    $conn->close();
 
     if($result->num_rows > 0) {
 
@@ -89,15 +65,33 @@ include 'connect.php';
 
                 foreach($assoc as $key=>$value) {
 
-                    echo "<td scope=\"row\">$value</td>";
+                    if($key == "id_utente") {
 
+                      $sqlNome = "SELECT nome FROM utente WHERE id='$value'";
+                      $nome = $conn->query($sqlNome);
+                      if($nome->num_rows == 1) {
+                        
+                        $res = $nome->fetch_assoc();
+                        echo "<td scope=\"row\"><a href=\"modificaUtente.php?id=$value\">$value ($res[nome])</a></td>";
+                      }
+                      
+                    } else if($key == "isbn") {
+                      $sqlIsbn = "SELECT titolo FROM libro WHERE isbn='$value'";
+                      $isbn = $conn->query($sqlIsbn);
+                      if($isbn->num_rows == 1) {
+                        
+                        $res = $isbn->fetch_assoc();
+                        echo "<td scope=\"row\"><a href=\"modifica.php?isbn=$value\">$value ($res[titolo])</a></td>";
+                      }
+                    } 
+                    
+                    else {
+
+                      echo "<td scope=\"row\">$value</td>";
+                    }
                 }
 
-                echo "<td><a href='vediPrestitiUtente.php?id=$assoc[id]'> Prestiti </a></td>";
-
-                echo "<td><a href='modificaUtente.php?id=$assoc[id]'> Modifica </a></td>";
-
-                echo "<td><a href='eliminaUtente.php?id=$assoc[id]'> Elimina </a></td>";
+                echo "<td><a href='eliminaPrestito.php?isbn=$assoc[isbn]'> Elimina </a></td>";
 
                 echo "</tr>";
 
@@ -115,11 +109,7 @@ include 'connect.php';
 
                 }
 
-                echo "<td><a href='vediPrestitiUtente.php?id=$assoc[id]'> Prestiti </a></td>";
-
-                echo "<td><a href='modificaUtente.php?id=$assoc[id]'> Modifica </a></td>";
-
-                echo "<td><a href='eliminaUtente.php?id=$assoc[id]'> Elimina </a></td>";
+                echo "<td><a href='eliminaPrestito.php?isbn=$assoc[isbn]'> Elimina </a></td>";
 
                 echo "</tr>";
 
@@ -136,6 +126,8 @@ include 'connect.php';
 
 
     echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
+
+    
 
 
 

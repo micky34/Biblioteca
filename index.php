@@ -18,23 +18,21 @@
 
 
 
-    <script id="replace_with_navbar" src="nav.js"></script>
+    <?php include 'navbar.php'; ?>
 
 
 
-
-
-    <div class="card-group p-3">
+    <div class="card-group p-3" >
 
         <div class="card">
 
           <div class="card-body">
 
-            <h5 class="card-title">Nuovo prestito</h5>
+            <h5 class="card-title">Utenti</h5>
 
-            <p class="card-text">Inserisci un nuovo prestito.</p>
+            <p class="card-text">Crea, cerca, modifica o elimina utenti.</p>
 
-            <a href="creaPrestito.php" class="btn btn-primary">Vai</a>
+            <a href="utente/utenti.html" class="btn" style="background-color: #94B49F ;">Visualizza opzioni</a>
 
           </div>
 
@@ -44,11 +42,25 @@
 
           <div class="card-body">
 
-            <h5 class="card-title">Lista prestiti</h5>
+            <h5 class="card-title">Libri</h5>
 
-            <p class="card-text">Visualizza tutti i prestiti.</p>
+            <p class="card-text">Crea, cerca, modifica o elimina libri.</p>
 
-            <a href="vediPrestiti.php" class="btn btn-primary">Vai</a>
+            <a href="libro/libri.html" class="btn " style="background-color: #94B49F ;">Visualizza opzioni</a>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-body">
+
+            <h5 class="card-title">Prestiti</h5>
+
+            <p class="card-text">Crea, cerca o elimina prestiti</p>
+
+            <a href="prestito/prestiti.html" class="btn" style="background-color: #94B49F ;">Visualizza opzioni</a>
 
           </div>
 

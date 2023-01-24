@@ -26,16 +26,15 @@
 
   </head>
 
-  <body class="bg-light">
-  <script id="replace_with_navbar" src="../nav.js"></script>
+  <body class="bg-light"><?php include '../navbar.php'; ?>
 
   <?php
 
-include 'connect.php';
+include '../connect.php';
 
 
 
-$isbn = $_REQUEST["isbn"];
+$isbn = $_REQUEST["id"];
 
 $conn = connect();
 

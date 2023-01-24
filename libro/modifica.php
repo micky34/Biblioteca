@@ -22,58 +22,70 @@
 
   </head>
 
-  <body class="bg-light">
-  <script id="replace_with_navbar" src="../nav.js"></script>
+  <body class="bg-light"><?php include '../navbar.php'; ?>
 
     
 
 <?php
 
-include 'connect.php';
+include '../connect.php';
 
-$_isbn = $_REQUEST["isbn"];
+if(isset($_REQUEST["modifica"])) {
+  $_isbn = $_REQUEST["id"];
 
-
-
-$conn = connect();
-
+  $conn = connect();
 
 
-$query = "SELECT * FROM libro WHERE isbn='$_isbn'";
+  $titolo = $_REQUEST["titolo"];
+  $autore = $_REQUEST["autore"];
+  $genere = $_REQUEST["genere"];
+  $anno = $_REQUEST["anno"];
+  $isbn = $_REQUEST["isbn"];
+  $scaffale = $_REQUEST["scaffale"];
+  $query = "UPDATE libro SET titolo='$titolo', autore='$autore', genere='$genere', anno='$anno', isbn='$isbn', scaffale='$scaffale' WHERE isbn='$_isbn'";
+  if($conn->query($query) === TRUE) {
+    echo "Ok";
+  } else {
+    echo "Errore";
+  }
+} else {
 
-$result = $conn->query($query);
+  $_isbn = $_REQUEST["id"];
 
-
-
-if($result->num_rows == 1) {
-
-    $dati = $result->fetch_assoc();
-
-    $titolo = $dati["titolo"];
-
-    $autore = $dati["autore"];
-
-    $genere = $dati["genere"];
-
-    $anno = $dati["anno"];
-
-    $isbn = $dati["isbn"];
-
-    $scaffale = $dati["scaffale"];
-
-    $prestito = $dati["prestito"];
-
-} else die ("Errore");
-
-
-
+  $conn = connect();
+  
+    $query = "SELECT * FROM libro WHERE isbn='$_isbn'";
+  
+  $result = $conn->query($query);
+  
+  
+  
+  if($result->num_rows == 1) {
+  
+      $dati = $result->fetch_assoc();
+  
+      $titolo = $dati["titolo"];
+  
+      $autore = $dati["autore"];
+  
+      $genere = $dati["genere"];
+  
+      $anno = $dati["anno"];
+  
+      $isbn = $dati["isbn"];
+  
+      $scaffale = $dati["scaffale"];
+  
+  
+  }
+}
 
 
 ?>
 
 
 
-<form action ="update.php" method="post" class="p-2">
+<form method="post" class="p-2">
 
         <div class="row mb-3">
 
@@ -159,37 +171,15 @@ if($result->num_rows == 1) {
 
 
 
-              
-
-
-
-            <div class="row mb-3">
-
-                <label class="col-sm-1 col-form-label">Prestito</label>
-
-                <div class="col-sm-2">
-
-                  <input type="text" class="form-control" name="prestito" placeholder="Prestito" value="<?php echo "$prestito"; ?>">
-
-                </div>
-
-              </div>
-
-
-
-          <input class="btn btn-primary" type="submit" value="Salva" name="modifica">
-
+          <input class="btn btn-primary" type="submit" name="modifica" value="Modifica">  
+  
       </form>
 
-      <form action="index.html" class="p-2">
 
-        <button class="btn btn-secondary" type="submit">Torna indietro</button>
-
-    </form>
+      <input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
 
 
-
-
+ 
 
     <!-- Optional JavaScript -->
 

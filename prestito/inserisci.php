@@ -22,18 +22,17 @@
 
   </head>
 
-  <body class="bg-light">
-  <script id="replace_with_navbar" src="../nav.js"></script>
+  <body class="bg-light"><?php include '../navbar.php'; ?>
 
     
 
   
 
-<form action="prestito.php" method="get">
+<form method="get">
 
     <?php
 
-        include 'connect.php';
+          include '../connect.php';
 
         $conn = connect();
 
@@ -95,7 +94,23 @@
 
     ?>
 
-<input class="btn btn-primary" type="submit" value="Invio">
+<input class="btn btn-primary" type="submit" name="invio">
+
+<?php
+if(isset($_REQUEST["invio"])) {
+  $id = $_REQUEST["id"];
+  $isbn = $_REQUEST["isbn"];
+  $data = date("Y-m-d");
+
+  $query = "INSERT INTO prestito (isbn, id_utente, data) VALUES ('$isbn', '$id', '$data')";
+  $conn = connect();
+  if($conn->query($query) === TRUE) {
+      echo "Prestito creato correttamente!";
+      echo "<form action=\"index.html\"><button class=\"btn btn-secondary\" type=\"submit\">Torna indietro</button></form>";
+  }
+}
+
+?>
 
       </form>
 

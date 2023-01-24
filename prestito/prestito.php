@@ -1,9 +1,10 @@
 <?php
+include '../navbar.php'; 
 $id = $_REQUEST["id"];
 $isbn = $_REQUEST["isbn"];
 $data = date("Y-m-d");
 
-include 'connect.php';
+include '../connect.php';
 $query = "INSERT INTO prestito (isbn, id_utente, data) VALUES ('$isbn', '$id', '$data')";
 $conn = connect();
 if($conn->query($query) === TRUE) {

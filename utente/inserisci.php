@@ -1,3 +1,4 @@
+
 <!doctype html>
 
 <html lang="en">
@@ -18,69 +19,18 @@
 
 
 
-    <title>Hello, world!</title>
+    <title>Inserisci un utente</title>
 
   </head>
 
   <body class="bg-light">
 
-<?php
+    
+  <?php include '../navbar.php'; ?>
 
+    <h3 class="p-2">Inserisci un utente</h3>
 
- $path = $_SERVER["DOCUMENT_ROOT"]."/biblioteca/Biblioteca/";
- include($path."nav.html");
-
-include 'connect.php';
-
-$id = $_REQUEST["id"];
-
-
-
-$conn = connect();
-
-
-
-$query = "SELECT * FROM utente WHERE id='$id'";
-
-$result = $conn->query($query);
-
-
-
-
-
-if($result->num_rows == 1) {
-
-    $data = $result->fetch_assoc();
-
-    $nome = $data["nome"];
-
-    $email = $data["email"];
-
-    $password = $data["password"];  
-
-} else die ("Errore");
-
-
-
-
-
-?>
-
-
-
-<form action ="updateUtente.php" method="post" class="p-2">
-
-<div class="row mb-3">
-
-            <label class="col-sm-1 col-form-label">ID</label>
-
-            <div class="col-sm-2">
-
-              <input type="text" class="form-control disabled" name="id" placeholder="ID" value="<?php echo "$id"; ?>">
-
-            </div>
-
-        </div>
+    <form method="post" class="p-2">
 
         <div class="row mb-3">
 
@@ -88,7 +38,7 @@ if($result->num_rows == 1) {
 
             <div class="col-sm-2">
 
-              <input type="text" class="form-control" name="nome" placeholder="Nome" value="<?php echo "$nome"; ?>">
+              <input type="text" class="form-control" name="nome" placeholder="Nome utente">
 
             </div>
 
@@ -102,7 +52,7 @@ if($result->num_rows == 1) {
 
             <div class="col-sm-2">
 
-              <input type="text" class="form-control" name="email" placeholder="Email" value="<?php echo "$email"; ?>">
+              <input type="email" class="form-control" name="email" placeholder="Email">
 
             </div>
 
@@ -116,7 +66,7 @@ if($result->num_rows == 1) {
 
             <div class="col-sm-2">
 
-              <input type="text" class="form-control" name="password" placeholder="Password" value="<?php echo "$password"; ?>">
+              <input type="password" class="form-control" name="password" placeholder="Password">
 
             </div>
 
@@ -124,20 +74,34 @@ if($result->num_rows == 1) {
 
 
 
-          <input class="btn btn-primary" type="submit" value="Salva" name="modifica">
+          <input class="btn btn-primary" type="submit" name="invio" value="Invio">
 
       </form>
 
-      <form action="index.html" class="p-2">
-
-        <button class="btn btn-secondary" type="submit">Torna indietro</button>
-
-    </form>
 
 
+      <?php
+
+if(isset($_REQUEST["invio"])) {
+
+    include '../connect.php';
+
+    $nome = $_REQUEST["nome"];
+    $email = $_REQUEST["email"];
+    $password = $_REQUEST["password"];
+    
+    $conn = connect();
+    $query = "INSERT INTO utente (nome, email, password) VALUES ('$nome', '$email', '$password')";
+    if($conn->query($query) === TRUE) {
+        echo "utente inserito con successo";
+    }
+
+}
 
 
+?>
 
+<input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
     <!-- Optional JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -151,3 +115,6 @@ if($result->num_rows == 1) {
   </body>
 
 </html>
+
+
+

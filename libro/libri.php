@@ -17,8 +17,7 @@
   <body class="bg-light">
 
 
-
-    <script id="replace_with_navbar" src="../nav.js"></script>
+    <?php include '../navbar.php'; ?>
 
 
 
@@ -30,11 +29,11 @@
 
           <div class="card-body">
 
-            <h5 class="card-title">Nuovo prestito</h5>
+            <h5 class="card-title">Inserisci libro</h5>
 
-            <p class="card-text">Inserisci un nuovo prestito.</p>
+            <p class="card-text">Inserisci un nuovo libro.</p>
 
-            <a href="creaPrestito.php" class="btn btn-primary">Vai</a>
+            <a href="inserisci.php" class="btn btn-primary">Vai</a>
 
           </div>
 
@@ -44,11 +43,25 @@
 
           <div class="card-body">
 
-            <h5 class="card-title">Lista prestiti</h5>
+            <h5 class="card-title">Cerca libro</h5>
 
-            <p class="card-text">Visualizza tutti i prestiti.</p>
+            <p class="card-text">Cerca libro per campi.</p>
 
-            <a href="vediPrestiti.php" class="btn btn-primary">Vai</a>
+            <a href="cerca.php" class="btn btn-primary">Vai</a>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-body">
+
+            <h5 class="card-title">Visualizza tutti</h5>
+
+            <p class="card-text">Visualizza tutti i libri.</p>
+
+            <a href="cerca.php?invio=" class="btn btn-primary">Vai</a>
 
           </div>
 

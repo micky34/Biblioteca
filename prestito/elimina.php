@@ -26,32 +26,31 @@
 
   </head>
 
-  <body class="bg-light">
-  <script id="replace_with_navbar" src="../nav.js"></script>
+  <body class="bg-light"><?php include '../navbar.php'; ?>
 
   <?php
 
-include 'connect.php';
+include '../connect.php';
 
 
 
-$id = $_REQUEST["id"];
+$isbn = $_REQUEST["isbn"];
 
 $conn = connect();
 
-$query = "DELETE FROM utente WHERE id='$id'";
+$query = "DELETE FROM prestito WHERE isbn='$isbn'";
 
 if($conn->query($query) === TRUE) {
 
-    echo "Utente $id eliminato con successo!";
+    echo "Prestito con codice $isbn eliminato con successo!";
 
-    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='cercaUtente.php?id=&nome=&email='\"/>";
+    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
 
 } else {
 
-    echo "Utente $id non trovato.";
+    echo "Prestito con codice $isbn non trovato.";
 
-    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='cercaUtente.php?id=&nome=&email='\"/>";
+    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
 
 }
 

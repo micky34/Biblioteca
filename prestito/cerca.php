@@ -32,19 +32,13 @@ include '../connect.php';
 
 
 
-    $id = $_REQUEST["id"];
-
-
-
     $check = false;
 
 
 
-    $query = "SELECT * FROM prestito WHERE id_utente='$id'";
+    $query = "SELECT * FROM prestito";
 
     $result = $conn->query($query);
-
-    $conn->close();
 
     if($result->num_rows > 0) {
 
@@ -70,11 +64,33 @@ include '../connect.php';
 
                 foreach($assoc as $key=>$value) {
 
-                    echo "<td scope=\"row\">$value</td>";
+                    if($key == "id_utente") {
 
+                      $sqlNome = "SELECT nome FROM utente WHERE id='$value'";
+                      $nome = $conn->query($sqlNome);
+                      if($nome->num_rows == 1) {
+                        
+                        $res = $nome->fetch_assoc();
+                        echo "<td scope=\"row\"><a href=\"../utente/modifica.php?id=$value\">$value ($res[nome])</a></td>";
+                      }
+                      
+                    } else if($key == "isbn") {
+                      $sqlIsbn = "SELECT titolo FROM libro WHERE isbn='$value'";
+                      $isbn = $conn->query($sqlIsbn);
+                      if($isbn->num_rows == 1) {
+                        
+                        $res = $isbn->fetch_assoc();
+                        echo "<td scope=\"row\"><a href=\"../libro/modifica.php?id=$value\">$value ($res[titolo])</a></td>";
+                      }
+                    } 
+                    
+                    else {
+
+                      echo "<td scope=\"row\">$value</td>";
+                    }
                 }
 
-                echo "<td><a href='eliminaPrestito.php?isbn=$assoc[isbn]'> Elimina </a></td>";
+                echo "<td><a href='elimina.php?id=$assoc[isbn]'> Elimina </a></td>";
 
                 echo "</tr>";
 
@@ -87,8 +103,29 @@ include '../connect.php';
                 echo "<tr>";
 
                 foreach($assoc as $key=>$value) {
+                  if($key == "id_utente") {
+
+                    $sqlNome = "SELECT nome FROM utente WHERE id='$value'";
+                    $nome = $conn->query($sqlNome);
+                    if($nome->num_rows == 1) {
+                      
+                      $res = $nome->fetch_assoc();
+                      echo "<td scope=\"row\"><a href=\"../utente/modifica.php?id=$value\">$value ($res[nome])</a></td>";
+                    }
+                    
+                  } else if($key == "isbn") {
+                    $sqlIsbn = "SELECT titolo FROM libro WHERE isbn='$value'";
+                    $isbn = $conn->query($sqlIsbn);
+                    if($isbn->num_rows == 1) {
+                      
+                      $res = $isbn->fetch_assoc();
+                      echo "<td scope=\"row\"><a href=\"../libro/modifica.php?id=$value\">$value ($res[titolo])</a></td>";
+                    }
+                  } else {
 
                     echo "<td scope=\"row\">$value</td>";
+                  }
+
 
                 }
 

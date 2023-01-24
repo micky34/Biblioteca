@@ -1,4 +1,3 @@
-
 <!doctype html>
 
 <html lang="en">
@@ -24,15 +23,62 @@
   </head>
 
   <body class="bg-light">
+  <?php include '../navbar.php'; ?>
 
-    <?php
-    $path = $_SERVER["DOCUMENT_ROOT"]."/biblioteca/Biblioteca/";
-    include($path."nav.html");
-    ?>
+<?php
 
-    <h3 class="p-2">Inserisci un libro</h3>
 
-    <form action="inserisciUtente.php" method="post" class="p-2">
+include '../connect.php';
+
+$id = $_REQUEST["id"];
+
+
+
+$conn = connect();
+
+
+
+$query = "SELECT * FROM utente WHERE id='$id'";
+
+$result = $conn->query($query);
+
+
+
+
+
+if($result->num_rows == 1) {
+
+    $data = $result->fetch_assoc();
+
+    $nome = $data["nome"];
+
+    $email = $data["email"];
+
+    $password = $data["password"];  
+
+} else die ("Errore");
+
+
+
+
+
+?>
+
+
+
+<form method="post" class="p-2">
+
+<div class="row mb-3">
+
+            <label class="col-sm-1 col-form-label">ID</label>
+
+            <div class="col-sm-2">
+
+              <input type="text" class="form-control disabled" name="id" placeholder="ID" value="<?php echo "$id"; ?>">
+
+            </div>
+
+        </div>
 
         <div class="row mb-3">
 
@@ -40,7 +86,7 @@
 
             <div class="col-sm-2">
 
-              <input type="text" class="form-control" name="nome" placeholder="Nome utente">
+              <input type="text" class="form-control" name="nome" placeholder="Nome" value="<?php echo "$nome"; ?>">
 
             </div>
 
@@ -54,7 +100,7 @@
 
             <div class="col-sm-2">
 
-              <input type="email" class="form-control" name="email" placeholder="Email">
+              <input type="text" class="form-control" name="email" placeholder="Email" value="<?php echo "$email"; ?>">
 
             </div>
 
@@ -68,7 +114,7 @@
 
             <div class="col-sm-2">
 
-              <input type="password" class="form-control" name="password" placeholder="Password">
+              <input type="text" class="form-control" name="password" placeholder="Password" value="<?php echo "$password"; ?>">
 
             </div>
 
@@ -76,34 +122,37 @@
 
 
 
-          <input class="btn btn-primary" type="submit" name="invio" value="Invio">
+          <input class="btn btn-primary" type="submit" name="modifica">
 
       </form>
 
+      
       <input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
 
+    <?php
+if(isset($_REQUEST["modifica"])) {
 
-      <?php
+$id = $_REQUEST["id"];
 
-if(isset($_REQUEST["invio"])) {
+$conn = connect();
 
-    include 'connect.php';
 
-    $nome = $_REQUEST["nome"];
-    $email = $_REQUEST["email"];
-    $password = $_REQUEST["password"];
-    
-    $conn = connect();
-    $query = "INSERT INTO utente (nome, email, password) VALUES ('$nome', '$email', '$password')";
-    if($conn->query($query) === TRUE) {
-        echo "utente inserito con successo";
-        echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
-    }
-
+$nome = $_REQUEST["nome"];
+$email = $_REQUEST["email"];
+$password = $_REQUEST["password"];
+$query = "UPDATE utente SET nome='$nome', email='$email', password='$password' WHERE id='$id'";
+if($conn->query($query) === TRUE) {
+    echo "Utente modificato con successo.";
+} else {
+    echo "Errore nella modifica dell'utente nel database.";
 }
 
 
+}
 ?>
+
+
+
     <!-- Optional JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -117,6 +166,3 @@ if(isset($_REQUEST["invio"])) {
   </body>
 
 </html>
-
-
-

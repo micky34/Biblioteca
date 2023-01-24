@@ -16,10 +16,7 @@
 
   <body class="bg-light">
 
-  <?php
-      $path = $_SERVER["DOCUMENT_ROOT"]."/biblioteca/Biblioteca/";
-      include($path."nav.html");
-?>
+  <?php include '../navbar.php'; ?>
 
     <div class="card-group p-3">
 
@@ -31,7 +28,7 @@
 
             <p class="card-text">Inserisci nuovi utenti.</p>
 
-            <a href="inserisciUtente.html" class="btn btn-primary">Vai</a>
+            <a href="inserisci.php" class="btn btn-primary">Vai</a>
 
           </div>
 
@@ -45,7 +42,7 @@
 
             <p class="card-text">Cerca utenti per campo.</p>
 
-            <a href="cercaUtente.html" class="btn btn-primary">Vai</a>
+            <a href="cerca.php" class="btn btn-primary">Vai</a>
 
           </div>
 
@@ -59,7 +56,7 @@
 
             <p class="card-text">Visualizza tutti gli utenti</p>
 
-            <a href="cercaUtente.php" class="btn btn-primary">Vai</a>
+            <a href="cerca.php?invio=" class="btn btn-primary">Vai</a>
 
           </div>
 

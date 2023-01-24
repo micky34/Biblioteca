@@ -16,13 +16,13 @@
   
 
   <body class="bg-light">
-    <script id="replace_with_navbar" src="../nav.js"></script>
+    <?php include '../navbar.php'; ?>
 
     <h3 class="p-2">Inserisci un libro</h3>
 
 
 
-    <form action="insert.php" method="post" class="p-2">
+    <form method="post" class="p-2">
 
         <div class="row mb-3">
 
@@ -107,9 +107,32 @@
 </div>
 
 
-          <input class="btn btn-primary" type="submit" value="Invio">
+          <input class="btn btn-primary" type="submit" name="invio">
 
       </form>
+
+      <?php
+
+include '../connect.php';
+if(isset($_REQUEST["invio"])){
+  $conn = connect();
+
+  $titolo = $_REQUEST["titolo"];
+  $autore = $_REQUEST["autore"];
+  $genere = $_REQUEST["genere"];
+  $anno = $_REQUEST["anno"];
+  $isbn = $_REQUEST["isbn"];
+  $scaffale = $_REQUEST["scaffale"];
+
+  $sql = "INSERT INTO libro (titolo, autore, genere, anno, isbn, scaffale) VALUES ('$titolo', '$autore', '$genere', '$anno', '$isbn', '$scaffale')";
+
+  if($conn->query($sql) === TRUE) {
+      echo "Inserimento avvenuto con successo!\n";
+  } else {
+      echo "errore di inserimento\n";
+  }
+}
+?>
 
       <input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
 

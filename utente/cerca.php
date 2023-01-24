@@ -18,18 +18,93 @@
 
 
 
-    <title>Lista prestiti</title>
+    <title>Ricerca libro</title>
 
   </head>
 
   <body class="bg-light">
-  <script id="replace_with_navbar" src="../nav.js"></script>
+  <?php include '../navbar.php'; ?>
+
+<h3 class="p-2">Cerca un utente</h3>
+
+
+
+<form method="get" class="p-2">
+
+    <div class="row mb-3">
+
+        <label class="col-sm-1 col-form-label">ID</label>
+
+        <div class="col-sm-2">
+
+          <input type="text" class="form-control" name="id" placeholder="ID">
+
+        </div>
+
+    </div>
+
+
+
+      <div class="row mb-3">
+
+        <label class="col-sm-1 col-form-label">Nome</label>
+
+        <div class="col-sm-2">
+
+          <input type="text" class="form-control" name="nome" placeholder="Nome">
+
+        </div>
+
+      </div>
+
+
+
+      <div class="row mb-3">
+
+        <label class="col-sm-1 col-form-label">Email</label>
+
+        <div class="col-sm-2">
+
+          <input type="text" class="form-control" name="email" placeholder="Email">
+
+        </div>
+
+      </div>
+
+
+
+      <input class="btn btn-primary" name="invio" type="submit" value="Cerca">
+
+  </form>
+
 
 <?php
-
-include 'connect.php';
+ if(isset($_REQUEST["invio"])) {
+include '../connect.php';
 
   $conn = connect();
+
+
+
+  if(isset($_REQUEST["id"], $_REQUEST["nome"], $_REQUEST["email"])){
+
+       $id = $_REQUEST["id"];
+
+    $nome = $_REQUEST["nome"];
+
+    $email = $_REQUEST["email"];
+
+  } else {
+
+    $id  = "";
+
+    $nome = "";
+
+    $email = "";
+
+  }
+
+ 
 
 
 
@@ -37,9 +112,11 @@ include 'connect.php';
 
 
 
-    $query = "SELECT * FROM prestito";
+    $query = "SELECT * FROM utente WHERE id LIKE '$id%' AND nome LIKE '$nome%' AND email LIKE '$email%'";
 
     $result = $conn->query($query);
+
+    $conn->close();
 
     if($result->num_rows > 0) {
 
@@ -65,33 +142,15 @@ include 'connect.php';
 
                 foreach($assoc as $key=>$value) {
 
-                    if($key == "id_utente") {
+                    echo "<td scope=\"row\">$value</td>";
 
-                      $sqlNome = "SELECT nome FROM utente WHERE id='$value'";
-                      $nome = $conn->query($sqlNome);
-                      if($nome->num_rows == 1) {
-                        
-                        $res = $nome->fetch_assoc();
-                        echo "<td scope=\"row\"><a href=\"modificaUtente.php?id=$value\">$value ($res[nome])</a></td>";
-                      }
-                      
-                    } else if($key == "isbn") {
-                      $sqlIsbn = "SELECT titolo FROM libro WHERE isbn='$value'";
-                      $isbn = $conn->query($sqlIsbn);
-                      if($isbn->num_rows == 1) {
-                        
-                        $res = $isbn->fetch_assoc();
-                        echo "<td scope=\"row\"><a href=\"modifica.php?isbn=$value\">$value ($res[titolo])</a></td>";
-                      }
-                    } 
-                    
-                    else {
-
-                      echo "<td scope=\"row\">$value</td>";
-                    }
                 }
 
-                echo "<td><a href='eliminaPrestito.php?isbn=$assoc[isbn]'> Elimina </a></td>";
+                echo "<td><a href='../prestito/vediPrestitiUtente.php?id=$assoc[id]'> Prestiti </a></td>";
+
+                echo "<td><a href='../utente/modifica.php?id=$assoc[id]'> Modifica </a></td>";
+
+                echo "<td><a href='../utente/elimina.php?id=$assoc[id]'> Elimina </a></td>";
 
                 echo "</tr>";
 
@@ -109,7 +168,11 @@ include 'connect.php';
 
                 }
 
-                echo "<td><a href='eliminaPrestito.php?isbn=$assoc[isbn]'> Elimina </a></td>";
+                echo "<td><a href='../prestito/vediPrestitiUtente.php?id=$assoc[id]'> Prestiti </a></td>";
+
+                echo "<td><a href='../utente/modifica.php?id=$assoc[id]'> Modifica </a></td>";
+
+                echo "<td><a href='../utente/elimina.php?id=$assoc[id]'> Elimina </a></td>";
 
                 echo "</tr>";
 
@@ -123,15 +186,10 @@ include 'connect.php';
 
     }
 
-
-
-    echo "<input type=\"button\" name=\"add\" value=\"Torna indietro\" onclick=\"location.href='javascript:history.go(-1)'\"/>";
-
-    
-
-
+  }
 
 ?>
+<input type="button" name="add" value="Torna indietro" onclick="location.href='javascript:history.go(-1)'"/>
 
     <!-- Optional JavaScript -->
 
